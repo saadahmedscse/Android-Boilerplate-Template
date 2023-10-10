@@ -1,6 +1,5 @@
 package com.saadahmedev.baseboilerplate.base
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -17,40 +16,36 @@ abstract class BaseRecyclerAdapter<T: Any, VB: ViewDataBinding> : RecyclerView.A
 
     abstract fun onBind(binding: VB, item: T, position: Int)
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addItems(items: List<T>) {
         this.items = items as MutableList<T>
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, this.items.size)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addItemsAfter(items: List<T>) {
+        val startPosition = this.items.size
         for (item in items) this.items.add(item)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(startPosition, items.size)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addItem(item: T) {
         this.items.add(item)
-        notifyDataSetChanged()
+        notifyItemInserted(this.items.size - 1)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addItem(position: Int, item: T) {
         this.items.add(position, item)
-        notifyDataSetChanged()
+        notifyItemInserted(position)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun removeItem(item: T) {
-        this.items.remove(item)
-        notifyDataSetChanged()
+        val index = this.items.indexOf(item)
+        this.items.removeAt(index)
+        notifyItemRemoved(index)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun removeItem(position: Int) {
         this.items.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BaseViewHolder<VB>(
