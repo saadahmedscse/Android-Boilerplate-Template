@@ -80,7 +80,7 @@ abstract class BaseActivity<BINDING: ViewBinding>(private val bindingInflater: (
         toast(this, message, duration)
     }
 
-    fun <T> Call<T>.getResponse(progressMessage: String, listener: ApiCall.OnResponseGet<T>) {
+    fun <T> Call<T>.getResponse(listener: ApiCall.OnResponseGet<T>) {
         ApiCall.enqueue(this@BaseActivity, this) {
             listener.onSuccessful(it)
         }

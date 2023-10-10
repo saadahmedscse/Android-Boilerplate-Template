@@ -96,7 +96,7 @@ abstract class BaseFragment<BINDING: ViewBinding>(
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
-    fun <T> Call<T>.getResponse(progressMessage: String, listener: ApiCall.OnResponseGet<T>) {
+    fun <T> Call<T>.getResponse(listener: ApiCall.OnResponseGet<T>) {
         ApiCall.enqueue(requireContext(), this) {
             listener.onSuccessful(it)
         }
