@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.saadahmedev.baseboilerplate.api.RetroInstance
+import com.saadahmedev.baseboilerplate.helper.SnackbarActionListener
 import com.saadahmedev.baseboilerplate.helper.navigate
 import com.saadahmedev.baseboilerplate.helper.snackBar
 import com.saadahmedev.baseboilerplate.helper.toast
@@ -64,12 +65,32 @@ abstract class BaseFragment<BINDING: ViewBinding>(
         return _binding.root
     }
 
+    fun String?.shortSnackBar(action: String, listener: SnackbarActionListener) {
+        this?.let { showSnackBar(it, action, Snackbar.LENGTH_SHORT, listener) }
+    }
+
+    fun String?.longSnackBar(action: String, listener: SnackbarActionListener) {
+        this?.let { showSnackBar(it, action, Snackbar.LENGTH_LONG, listener) }
+    }
+
     fun String?.shortSnackBar() {
-        this?.let { showSnackBar(it, Snackbar.LENGTH_SHORT) }
+        this?.let {
+            showSnackBar(it, "Close", Snackbar.LENGTH_SHORT, object : SnackbarActionListener {
+                override fun onActionClicked(snackbar: Snackbar) {
+                    snackbar.dismiss()
+                }
+            })
+        }
     }
 
     fun String?.longSnackBar() {
-        this?.let { showSnackBar(it, Snackbar.LENGTH_LONG) }
+        this?.let {
+            showSnackBar(it, "Close", Snackbar.LENGTH_LONG, object : SnackbarActionListener {
+                override fun onActionClicked(snackbar: Snackbar) {
+                    snackbar.dismiss()
+                }
+            })
+        }
     }
 
     fun String?.shortToast() {
@@ -80,8 +101,8 @@ abstract class BaseFragment<BINDING: ViewBinding>(
         this?.let { showToast(it, Toast.LENGTH_LONG) }
     }
 
-    private fun showSnackBar(message: String, duration: Int) {
-        snackBar(requireContext(), _binding.root, message, duration)
+    private fun showSnackBar(message: String, action: String, duration: Int, listener: SnackbarActionListener) {
+        snackBar(_binding.root, message, action, duration, listener)
     }
 
     private fun showToast(message: String, duration: Int) {
