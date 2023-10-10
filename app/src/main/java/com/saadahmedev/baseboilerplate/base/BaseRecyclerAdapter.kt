@@ -1,4 +1,4 @@
-package com.saadahmedev.baseboilerplate.api
+package com.saadahmedev.baseboilerplate.base
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
